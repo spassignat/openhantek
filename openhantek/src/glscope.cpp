@@ -512,18 +512,22 @@ void GlScope::generateGrid(QOpenGLShaderProgram *program) {
 
 void GlScope::drawGrid() {
     auto *gl = context()->functions();
-    gl->glLineWidth(1);
-
+//gl->glEnable(GL_PROGRAM_POINT_SIZE);
     // Grid
     m_vaoGrid[0].bind();
     m_program->setUniformValue(colorLocation, view->screen.grid);
-    gl->glDrawArrays(GL_POINTS, 0, gridDrawCounts[0]);
+	gl->glLineWidth(view->lineWidth.toFloat() );
+	if (view->gridAsLine) {
+		gl->glDrawArrays(GL_LINES, 0, gridDrawCounts[0]);
+	} else {
+		gl->glDrawArrays(GL_POINTS, 0, gridDrawCounts[0]);
+	}
     m_vaoGrid[0].release();
 
     // Axes
     m_vaoGrid[1].bind();
     m_program->setUniformValue(colorLocation, view->screen.axes);
-    gl->glDrawArrays(GL_LINES, 0, gridDrawCounts[1]);
+	gl->glDrawArrays(GL_LINES, 0, gridDrawCounts[1]);
     m_vaoGrid[1].release();
 
     // Border

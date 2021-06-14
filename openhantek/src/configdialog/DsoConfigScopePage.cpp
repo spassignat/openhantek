@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0+
 
 #include "DsoConfigScopePage.h"
+#include <QLineEdit>
 
 DsoConfigScopePage::DsoConfigScopePage(DsoSettings *settings, QWidget *parent) : QWidget(parent), settings(settings) {
     // Initialize lists for comboboxes
@@ -27,6 +28,14 @@ DsoConfigScopePage::DsoConfigScopePage(DsoSettings *settings, QWidget *parent) :
     graphGroup = new QGroupBox(tr("Graph"));
     graphGroup->setLayout(graphLayout);
 
+	linesLabel	= new QLabel(tr("Line Width"));
+    lineEdit=new QLineEdit(this);
+    lineEdit->setText(settings->view.lineWidth );
+
+	gridAsLineLabel	= new QLabel(tr("Display grid as Line"));
+	gridAsLineCheckBox=new QCheckBox(this);
+	gridAsLineCheckBox->setCheckState( settings->view.gridAsLine?Qt::CheckState::Checked:Qt::CheckState::Unchecked );
+
     cursorsLabel = new QLabel(tr("Position"));
     cursorsComboBox = new QComboBox();
     cursorsComboBox->addItem("Left", Qt::LeftToolBarArea);
@@ -36,6 +45,10 @@ DsoConfigScopePage::DsoConfigScopePage(DsoSettings *settings, QWidget *parent) :
     cursorsLayout = new QGridLayout();
     cursorsLayout->addWidget(cursorsLabel, 0, 0);
     cursorsLayout->addWidget(cursorsComboBox, 0, 1);
+cursorsLayout->addWidget(linesLabel, 1, 0);
+    cursorsLayout->addWidget(lineEdit, 1, 1);
+cursorsLayout->addWidget(gridAsLineLabel, 2, 0);
+    cursorsLayout->addWidget(gridAsLineCheckBox, 2, 1);
 
     cursorsGroup = new QGroupBox(tr("Cursors"));
     cursorsGroup->setLayout(cursorsLayout);
@@ -53,4 +66,6 @@ void DsoConfigScopePage::saveSettings() {
     settings->view.interpolation = (Dso::InterpolationMode)interpolationComboBox->currentIndex();
     settings->view.digitalPhosphorDepth = digitalPhosphorDepthSpinBox->value();
     settings->view.cursorGridPosition = (Qt::ToolBarArea)cursorsComboBox->currentData().toUInt();
+    settings->view.lineWidth = lineEdit->text();
+    settings->view.gridAsLine = gridAsLineCheckBox->isChecked();
 }

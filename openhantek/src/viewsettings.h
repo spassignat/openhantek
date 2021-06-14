@@ -48,4 +48,6 @@ struct DsoSettingsView {
     unsigned digitalPhosphorDraws() const {
         return digitalPhosphor ? digitalPhosphorDepth : 1;
     }
+ QString lineWidth=QString("1");
+    bool gridAsLine=false;
 };

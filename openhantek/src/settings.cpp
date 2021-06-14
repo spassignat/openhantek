@@ -182,6 +182,8 @@ void DsoSettings::load() {
         view.interpolation = (Dso::InterpolationMode)store->value("interpolation").toInt();
     if (store->contains("screenColorImages")) view.screenColorImages = store->value("screenColorImages").toBool();
     if (store->contains("zoom")) view.zoom = store->value("zoom").toBool();
+    if (store->contains("lineWidth")) view.lineWidth = store->value("lineWidth").toString();
+    if (store->contains("gridAsLine")) view.gridAsLine = store->value("gridAsLine").toBool();
     if (store->contains("cursorGridPosition"))
         view.cursorGridPosition = (Qt::ToolBarArea)store->value("cursorGridPosition").toUInt();
     if (store->contains("cursorsVisible")) view.cursorsVisible = store->value("cursorsVisible").toBool();
@@ -304,6 +306,8 @@ void DsoSettings::save() {
     store->setValue("interpolation", view.interpolation);
     store->setValue("screenColorImages", view.screenColorImages);
     store->setValue("zoom", view.zoom);
+    store->setValue("lineWidth", view.lineWidth);
+    store->setValue("gridAsLine", view.gridAsLine);
     store->setValue("cursorGridPosition", view.cursorGridPosition);
     store->setValue("cursorsVisible", view.cursorsVisible);
     store->endGroup();
